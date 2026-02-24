@@ -1,0 +1,172 @@
+# 🤖 Telegram Auto-Report Bot
+
+Automatically reports Telegram channels, groups, and users using multiple accounts simultaneously.
+
+-----
+
+## ✨ Features
+
+|Feature           |Description                                               |
+|------------------|----------------------------------------------------------|
+|📱 Multi-account   |Add multiple Telegram accounts — all report simultaneously|
+|🔢 Token System    |Users pay tokens per report; owner has unlimited          |
+|👑 Role System     |Owner → Admin → User hierarchy                            |
+|📋 12+ Report Types|Pornography, Child Abuse, Violence, Spam, Scam, etc.      |
+|✍️ Custom Text     |Admin can set global report text, or user writes custom   |
+|⚡ Simultaneous    |All accounts report at the same time using asyncio        |
+|🚂 Railway Ready   |Deploy to Railway.app in minutes                          |
+
+-----
+
+## 🚀 Quick Setup
+
+### Step 1: Get credentials
+
+**Bot Token**
+
+1. Open Telegram → search `@BotFather`
+1. Send `/newbot` and follow prompts
+1. Copy the token
+
+**API ID & Hash**
+
+1. Go to https://my.telegram.org/apps
+1. Log in with your phone number
+1. Create an app → copy `App api_id` and `App api_hash`
+
+**Your User ID**
+
+1. Message `@userinfobot` on Telegram
+1. Copy your numeric ID
+
+### Step 2: Configure
+
+```bash
+cp .env.example .env
+# Edit .env and fill in all values
+```
+
+### Step 3: Install & Run Locally
+
+```bash
+pip install -r requirements.txt
+python bot.py
+```
+
+-----
+
+## 🚂 Deploy to Railway
+
+### Method 1: GitHub (Recommended)
+
+1. Push this folder to a GitHub repo
+1. Go to [railway.app](https://railway.app) → New Project
+1. Select “Deploy from GitHub repo”
+1. Choose your repo
+1. Add environment variables (from `.env.example`)
+1. Click Deploy ✅
+
+### Method 2: Railway CLI
+
+```bash
+npm install -g @railway/cli
+railway login
+railway init
+railway up
+```
+
+### Setting Environment Variables on Railway
+
+In your Railway project → Settings → Variables, add:
+
+```
+BOT_TOKEN=your_bot_token
+API_ID=your_api_id
+API_HASH=your_api_hash
+OWNER_ID=your_telegram_id
+OWNER_USERNAME=your_username
+DATABASE_URL=  ← Railway auto-fills this if you add PostgreSQL plugin
+```
+
+### Add PostgreSQL on Railway
+
+1. In your project → New → Database → PostgreSQL
+1. Railway automatically sets `DATABASE_URL` — no manual config needed
+
+-----
+
+## 📖 Bot Usage
+
+### For Users
+
+1. Start bot with `/start`
+1. Add your Telegram account via **📱 Accounts → ➕ Add Account**
+1. Enter phone number → receive code → verify
+1. Click **📝 Report**
+1. Paste target username/link
+1. Choose report type
+1. Choose how many reports
+1. All your accounts report simultaneously!
+
+### For Admin
+
+- **Admin Panel** → Add tokens to users
+- **Set Report Text** → Override the auto-generated text for all reports
+- View stats, manage accounts
+
+### For Owner
+
+- Unlimited tokens by default
+- Promote/demote users to admin
+- Ban/unban users
+- Give unlimited tokens to any user
+- All admin capabilities
+
+-----
+
+## 💡 Report Types Supported
+
+|Type                  |Auto Text Generated|
+|----------------------|-------------------|
+|Pornography           |✅                  |
+|Child Abuse           |✅                  |
+|Violence              |✅                  |
+|Illegal Goods/Services|✅                  |
+|Non-Consensual Imagery|✅                  |
+|Scam or Fraud         |✅                  |
+|Spam                  |✅                  |
+|Animal Abuse          |✅                  |
+|Personal Data         |✅                  |
+|Copyright             |✅                  |
+|Custom                |User writes text   |
+|Other                 |✅                  |
+
+-----
+
+## 🏗 Architecture
+
+```
+bot.py              ← Main bot, all aiogram handlers
+├── config.py       ← Environment config
+├── database.py     ← SQLite/PostgreSQL (auto-detected)
+├── account_manager.py  ← Telethon login + session management
+└── report_engine.py    ← Concurrent multi-account reporting
+```
+
+-----
+
+## ⚠️ Legal Notice
+
+This bot is intended for reporting genuinely harmful content to Telegram moderators. Misuse to harass, falsely report innocent channels, or spam Telegram’s report system is against Telegram’s ToS and may result in account bans. Use responsibly.
+
+-----
+
+## 🔧 Troubleshooting
+
+**“No accounts available”** → Add at least one account in Accounts menu
+
+**Phone code not received** → Check if phone is valid, or try again after 60 seconds
+
+**Report failed** → Target may not exist, or account may have been rate limited
+
+**Railway deployment fails** → Check that all environment variables are set in Railway dashboard
