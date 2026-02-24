@@ -1,4 +1,4 @@
-[build]
+Jb[build]
 builder = “NIXPACKS”
 
 [deploy]
